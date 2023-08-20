@@ -9,6 +9,7 @@ import { processMessage } from "./langchain/langchainService.js";
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
+const PORT = "8080";
 
 wss.on("connection", (ws) => {
   console.log("Client connected");
@@ -29,6 +30,6 @@ wss.on("connection", (ws) => {
   });
 });
 
-server.listen(8080, () => {
-  console.log("Server started on http://localhost:8080");
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server started on 0.0.0.0:${PORT} `);
 });
