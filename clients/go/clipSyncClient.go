@@ -2,6 +2,7 @@ package main
 
 import (
 	"io"
+	"os"
 	"strings"
 	"fmt"
 	"log"
@@ -12,6 +13,13 @@ import (
 
 var addr = "192.168.1.76:8080"
 var reconnectDelay = 5 * time.Second
+
+func init() {
+	// Check if command-line argument is provided
+	if len(os.Args) > 1 {
+		addr = os.Args[1]
+	}
+}
 
 func getClipboard() string {
 	out, err := exec.Command("osascript", "-e", "get the clipboard as string").Output()
