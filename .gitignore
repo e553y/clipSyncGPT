@@ -3,3 +3,7 @@ faiss.index
 docstore.json
 package-lock.json
 .env
+*.exe
+*.out
+*.o
+clients/go/clipSyncClient
