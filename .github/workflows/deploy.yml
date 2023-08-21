@@ -20,5 +20,5 @@ jobs:
           echo "$GCP_SA_KEY" > sa_key.json
           gcloud auth activate-service-account --key-file=sa_key.json
           # Assuming you're deploying using gcloud, adjust the below command accordingly
-          gcloud compute scp ./server/ clip-sync-gpt:~/server --zone=us-west4-a --project "clipsyncgpt"
-          gcloud compute ssh clip-sync-gpt --command="pm2 restart clip-sync-server" --zone=us-west4-a --project "clipsyncgpt"
+          gcloud compute scp -r ./server/ clip-sync-gpt:~/server --zone=us-west4-a --project "clipsyncgpt"
+          gcloud compute ssh clip-sync-gpt --command="cd ~/server && pm2 restart clip-sync-server" --zone=us-west4-a --project "clipsyncgpt"
