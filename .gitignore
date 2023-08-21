@@ -7,3 +7,4 @@ package-lock.json
 *.out
 *.o
 clients/go/clipSyncClient
+clipsyncgpt-9b6fa58debd7.json
