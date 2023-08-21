@@ -20,10 +20,10 @@ jobs:
           echo "$GCP_SA_KEY" > sa_key.json
           gcloud auth activate-service-account --key-file=sa_key.json
 
-          gcloud compute scp ./server/ clip-sync-gpt:~/ --recurse --zone=us-west4-a --project "clipsyncgpt"
+          gcloud compute scp ./server/ esey_iyasu@clip-sync-gpt:~/ --recurse --zone=us-west4-a --project "clipsyncgpt"
 
           # SCP the deployment script
-          gcloud compute scp ./deploy.sh clip-sync-gpt:~/ --zone=us-west4-a --project "clipsyncgpt"
+          gcloud compute scp ./deploy.sh esey_iyasu@clip-sync-gpt:~/ --zone=us-west4-a --project "clipsyncgpt"
 
           # SSH into the VM and run the deployment script
-          gcloud compute ssh clip-sync-gpt --zone=us-west4-a --project "clipsyncgpt" --command="bash ~/deploy.sh"
+          gcloud compute ssh esey_iyasu@clip-sync-gpt --zone=us-west4-a --project "clipsyncgpt" --command="bash ~/deploy.sh"
