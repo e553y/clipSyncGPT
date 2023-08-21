@@ -23,5 +23,14 @@ jobs:
           # Copy the 'server' directory to the GCP VM
           gcloud compute scp ./server/ clip-sync-gpt:~/ --recurse --zone=us-west4-a --project "clipsyncgpt"
 
-          # SSH into the VM, change the working directory to 'server' and restart the server using pm2
-          gcloud compute ssh clip-sync-gpt --command="cd ~/server && pwd && pm2 ls && pm2 restart clip-sync-server --update-env" --zone=us-west4-a --project "clipsyncgpt"
+          # SSH into the VM and run commands sequentially
+          gcloud compute ssh clip-sync-gpt --zone=us-west4-a --project "clipsyncgpt" << EOF
+          cd ~/server
+          pwd
+          pm2 ls
+          if pm2 info clip-sync-server > /dev/null 2>&1; then 
+            pm2 restart clip-sync-server --update-env; 
+          else 
+            pm2 start index.js --name clip-sync-server; 
+          fi
+          EOF
