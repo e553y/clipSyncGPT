@@ -1,0 +1,6 @@
+{
+  "reconnectDelay": 5,
+  "preamble": "//",
+  "port": "8080",
+  "fallbackAddr": "192.168.107.61"
+}
