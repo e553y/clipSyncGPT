@@ -24,4 +24,4 @@ jobs:
           gcloud compute scp ./server/ clip-sync-gpt:~/ --recurse --zone=us-west4-a --project "clipsyncgpt"
 
           # SSH into the VM, change the working directory to 'server' and restart the server using pm2
-          gcloud compute ssh clip-sync-gpt --command="cd ~/server && pm2 restart clip-sync-server" --zone=us-west4-a --project "clipsyncgpt"
+          gcloud compute ssh clip-sync-gpt --command="cd ~/server && pm2 restart clip-sync-server --update-env" --zone=us-west4-a --project "clipsyncgpt"
