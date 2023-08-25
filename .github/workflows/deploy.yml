@@ -26,4 +26,4 @@ jobs:
           gcloud compute scp ./deploy.sh esey_iyasu@clip-sync-gpt:~/ --zone=us-west4-a --project "clipsyncgpt"
 
           # SSH into the VM and run the deployment script
-          gcloud compute ssh esey_iyasu@clip-sync-gpt --zone=us-west4-a --project "clipsyncgpt" --command="cd server/ && pm2 start \"node ./index.js\" --name clip-sync-server"
+          gcloud compute ssh esey_iyasu@clip-sync-gpt --zone=us-west4-a --project "clipsyncgpt" --command="cd server/ && bash ../deploy.sh"

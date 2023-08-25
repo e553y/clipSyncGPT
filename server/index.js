@@ -31,5 +31,5 @@ wss.on("connection", (ws) => {
 });
 
 server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server started on 0.0.0.0:${PORT} `);
+  console.log(`Server V0: started on 0.0.0.0:${PORT} `);
 });
