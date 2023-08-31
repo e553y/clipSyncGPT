@@ -134,6 +134,8 @@ config();
 // }
 
 // export { processMessage };
+import { FaissStore } from "langchain/vectorstores/faiss";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 
 import { compile } from "html-to-text";
 import { RecursiveUrlLoader } from "langchain/document_loaders/web/recursive_url";
@@ -149,3 +151,21 @@ const loader = new RecursiveUrlLoader(url, {
 });
 
 const docs = await loader.load();
+
+const vectorStore = await FaissStore.fromDocuments(
+  docs,
+  new OpenAIEmbeddings()
+);
+
+async function processMessage(message) {
+  try {
+    const response = await vectorStore.similaritySearch(message, 1);
+    console.dir({ message, response });
+    return response?.response?.toString();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export { processMessage };

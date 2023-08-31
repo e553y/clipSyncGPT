@@ -11,10 +11,10 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+COPY package.json ./
 
 # Install the Node.js dependencies
-RUN npm install
+RUN npm install --no-package-lock
 
 # Copy the rest of the code
 COPY . .
