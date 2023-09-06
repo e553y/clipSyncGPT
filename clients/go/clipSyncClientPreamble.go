@@ -1,6 +1,7 @@
 package main
 
 import (
+	"runtime"
 	"bufio"
 	"encoding/json"
 	"fmt"
@@ -82,26 +83,52 @@ func getServerAddresses() []string {
 }
 
 func getClipboard() string {
-    out, err := exec.Command("xclip", "-o", "-selection", "clipboard").Output()
+    var out []byte
+    var err error
+
+    if runtime.GOOS == "darwin" {
+        out, err = exec.Command("osascript", "-e", "get the clipboard as string").Output()
+    } else if runtime.GOOS == "linux" {
+        out, err = exec.Command("xclip", "-o", "-selection", "clipboard").Output()
+    } else {
+        log.Println("Warning: Unsupported operating system for clipboard interaction")
+        return ""
+    }
+
     if err != nil {
         log.Println("Warning: Unable to get clipboard content:", err)
         return ""
     }
+
     return strings.TrimSpace(string(out))
 }
 
 func setClipboard(data string) {
-    cmd := exec.Command("xclip", "-in", "-selection", "clipboard")
-    stdin, err := cmd.StdinPipe()
+    var cmd *exec.Cmd
+    var stdin io.WriteCloser
+    var err error
+
+    if runtime.GOOS == "darwin" {
+        cmd = exec.Command("pbcopy")
+    } else if runtime.GOOS == "linux" {
+        cmd = exec.Command("xclip", "-in", "-selection", "clipboard")
+    } else {
+        log.Println("Warning: Unsupported operating system for clipboard interaction")
+        return
+    }
+
+    stdin, err = cmd.StdinPipe()
     if err != nil {
         log.Fatal(err)
     }
+
     go func() {
         defer stdin.Close()
         io.WriteString(stdin, data)
     }()
     cmd.Run()
 }
+
 
 func connectToServer() *websocket.Conn {
 	servers := getServerAddresses()
