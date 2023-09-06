@@ -82,25 +82,25 @@ func getServerAddresses() []string {
 }
 
 func getClipboard() string {
-	out, err := exec.Command("osascript", "-e", "get the clipboard as string").Output()
-	if err != nil {
-		log.Println("Warning: Unable to get clipboard content:", err)
-		return ""
-	}
-	return strings.TrimSpace(string(out))
+    out, err := exec.Command("xclip", "-o", "-selection", "clipboard").Output()
+    if err != nil {
+        log.Println("Warning: Unable to get clipboard content:", err)
+        return ""
+    }
+    return strings.TrimSpace(string(out))
 }
 
 func setClipboard(data string) {
-	cmd := exec.Command("pbcopy")
-	stdin, err := cmd.StdinPipe()
-	if err != nil {
-		log.Fatal(err)
-	}
-	go func() {
-		defer stdin.Close()
-		io.WriteString(stdin, data)
-	}()
-	cmd.Run()
+    cmd := exec.Command("xclip", "-in", "-selection", "clipboard")
+    stdin, err := cmd.StdinPipe()
+    if err != nil {
+        log.Fatal(err)
+    }
+    go func() {
+        defer stdin.Close()
+        io.WriteString(stdin, data)
+    }()
+    cmd.Run()
 }
 
 func connectToServer() *websocket.Conn {
