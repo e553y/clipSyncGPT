@@ -184,6 +184,20 @@ func main() {
 		}
 	}()
 
+	go func() {
+		reader := bufio.NewReader(os.Stdin)
+		for {
+			fmt.Print("Enter text: ")
+			text, _ := reader.ReadString('\n')
+			text = strings.TrimSpace(text)
+
+			err := c.WriteMessage(websocket.TextMessage, []byte(text))
+			if err != nil {
+				log.Println("Failed to send message:", err)
+			}
+		}
+	}()
+
 	for {
 		currentClipboard := getClipboard()
 		if strings.HasPrefix(currentClipboard, config.Preamble) {
@@ -203,5 +217,7 @@ func main() {
 			}
 		}
 		time.Sleep(1 * time.Second)
+
+
 	}
 }
