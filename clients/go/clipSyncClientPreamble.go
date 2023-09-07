@@ -43,6 +43,7 @@ func readServersFromFile() ([]string, error) {
 	return servers, nil
 }
 
+
 func getServerAddresses() []string {
 	var servers []string
 
@@ -61,7 +62,7 @@ func getServerAddresses() []string {
 			if strings.HasPrefix(line, "default") {
 				fields := strings.Fields(line)
 				if len(fields) >= 2 {
-					servers = append(servers, fields[1]) // add default gateway to the list
+					servers = append(servers, fields[1]+":"+config.Port) // add default gateway to the list
 					break
 				}
 			}
@@ -133,12 +134,12 @@ func setClipboard(data string) {
 func connectToServer() *websocket.Conn {
 	servers := getServerAddresses()
 	for _, addr := range servers {
-		c, _, err := websocket.DefaultDialer.Dial("ws://"+addr+":"+config.Port, nil)
+		c, _, err := websocket.DefaultDialer.Dial("ws://"+addr, nil)
 		if err != nil {
 			log.Println("Failed to connect to", addr, ":", err)
 			continue
 		}
-		log.Println("Successfully connected to the server at", addr+":"+config.Port)
+		log.Println("Successfully connected to the server at", addr)
 		return c
 	}
 	log.Println("Failed to connect to all servers. Retrying...")
