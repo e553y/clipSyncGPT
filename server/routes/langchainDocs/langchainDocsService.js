@@ -90,7 +90,10 @@ const memory = new BufferWindowMemory({
   returnMessages: true,
 });
 
-const model = new ChatOpenAI({ modelName: "gpt-4", temperature: 0 });
+const chat = new ChatOpenAI({
+  modelName: "gpt-4-1106-preview",
+  temperature: 0,
+});
 const chain = ConversationalRetrievalQAChain.fromLLM(model, retriever, {
   memory,
 });
