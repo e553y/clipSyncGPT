@@ -90,7 +90,7 @@ const memory = new BufferWindowMemory({
   returnMessages: true,
 });
 
-const chat = new ChatOpenAI({
+const model = new ChatOpenAI({
   modelName: "gpt-4-1106-preview",
   temperature: 0,
 });
