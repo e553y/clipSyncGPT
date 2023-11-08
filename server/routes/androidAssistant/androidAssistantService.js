@@ -11,7 +11,10 @@ import {
 } from "langchain/prompts";
 import { BufferWindowMemory } from "langchain/memory";
 
-const chat = new ChatOpenAI({ modelName: "gpt-4", temperature: 0 });
+const chat = new ChatOpenAI({
+  modelName: "gpt-4-1106-preview",
+  temperature: 0,
+});
 
 const chatPrompt = ChatPromptTemplate.fromPromptMessages([
   SystemMessagePromptTemplate.fromTemplate(
